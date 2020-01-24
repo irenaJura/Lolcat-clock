@@ -4,11 +4,10 @@ const noon = 12;
 const lunch = 12;
 const nap = lunch + 2;
 const evening = 18;
-const party = document.querySelector("#partyTimeButton").value;
+const partyButton = document.querySelector("#partyTimeButton");
+let partyTime;
 const img = document.querySelector("#lolcatImage");
 const message = document.querySelector("#timeEvent");
-
-console.log(party)
 
 // set up clock
 function updateTime() {
@@ -19,7 +18,7 @@ function updateTime() {
   const meridian = hour > 12 ? 'PM' : 'AM';
   clock.innerText = `${hour > 12 ? hour - 12 : hour}:${min < 10 ? '0'+ min : min}:${sec < 10 ? '0' + sec : sec}${meridian}`;
   // set conditions to replace images and text
-    if(hour == party) {
+    if(hour == partyTime) {
       image = "https://s3.amazonaws.com/media.skillcrush.com/skillcrush/wp-content/uploads/2016/08/partyTime.jpg";
       messageText = "Let's party!";
     } else if(hour == wakeUp) {
@@ -45,10 +44,24 @@ function updateTime() {
     message.innerText = messageText;
 }
 
+
 updateTime();
 
 setInterval(updateTime, 1000);
 
+function updateImage() {
+  if (partyTime < 0) {
+        partyTime = new Date().getHours();
+        partyButton.innerText = "Party Over!";
+        partyButton.style.backgroundColor = "#0A8DAB";
+    } else {
+        partyTime = -1;
+        partyButton.innerText = "Party Time!";
+        partyButton.style.backgroundColor = "#222";
+    }
+}
+updateImage();  
+partyButton.addEventListener("click", updateImage);
 
 
 
