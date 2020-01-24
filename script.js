@@ -1,11 +1,11 @@
 const clock = document.querySelector("#clock");
-const wakeUp = 8;
+let wakeUp = 8;
 const noon = 12;
-const lunch = 12;
-const nap = lunch + 2;
+let lunch = 12;
+let nap = lunch + 2;
 const evening = 18;
 const partyButton = document.querySelector("#partyTimeButton");
-let partyTime;
+let partyTime = true;
 const img = document.querySelector("#lolcatImage");
 const message = document.querySelector("#timeEvent");
 
@@ -49,13 +49,14 @@ updateTime();
 
 setInterval(updateTime, 1000);
 
+// update image when party button clicked, remove it on second click
 function updateImage() {
-  if (partyTime < 0) {
+  if (!partyTime) {
         partyTime = new Date().getHours();
         partyButton.innerText = "Party Over!";
         partyButton.style.backgroundColor = "#0A8DAB";
     } else {
-        partyTime = -1;
+        partyTime = false;
         partyButton.innerText = "Party Time!";
         partyButton.style.backgroundColor = "#222";
     }
@@ -63,5 +64,23 @@ function updateImage() {
 updateImage();  
 partyButton.addEventListener("click", updateImage);
 
+// set custom time for wake up, lunch and nap
+const wakeUpSelector = document.getElementById("wakeUpTimeSelector");
+const lunchTimeSelector = document.getElementById("lunchTimeSelector");
+const napTimeSelector =  document.getElementById("napTimeSelector");
 
+function wakeUpEvent() {
+  wakeUp = wakeUpSelector.value;
+}
 
+function lunchEvent() {
+  lunch = lunchTimeSelector.value;
+}
+
+function napEvent() {
+    nap = napTimeSelector.value;
+};
+
+wakeUpSelector.addEventListener("change", wakeUpEvent);
+lunchTimeSelector.addEventListener("change", lunchEvent);
+napTimeSelector.addEventListener("change", napEvent);
